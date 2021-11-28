@@ -9,12 +9,19 @@ public class Boundary
 }
 public class PlayerController : MonoBehaviour
 {
-    
-    Rigidbody physic;
     [SerializeField] int speed;   // Bu deðiþkene Unity'den eriþmek istiyorum. Lakin baþka bir yerden de eriþilmesini istemiyorsam;
     [SerializeField] int tilt;
+    [SerializeField] float fireRate;
+    [SerializeField] float nextFire;
+
+    public GameObject shot;
+    public GameObject shotPos;
     public Boundary boundary;
+
+    Rigidbody physic;
+    float zaman = 0.5f;
     
+
     void Start()
     {
         physic = GetComponent<Rigidbody>();
@@ -39,6 +46,20 @@ public class PlayerController : MonoBehaviour
 
         transform.rotation = Quaternion.Euler(0, 0, physic.velocity.x * tilt);  // Saða-sola eðim vererek hareket ettirme kodu.
 
+       
 
     }
+    private void Update()
+    {
+        //Debug.Log(Time.time);
+        if (Input.GetMouseButton(0) && Time.time > nextFire)
+        {
+            nextFire = Time.time + fireRate;  // bu deðer zamandan her zaman 0.25 kadar büyük olacaðý için saniyede 4 defa ateþ edebilecek.
+            Instantiate(shot, shotPos.transform.position, shotPos.transform.rotation);
+            
+        }
+    }
+
+
+
 }
