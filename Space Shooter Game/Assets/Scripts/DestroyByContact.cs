@@ -6,10 +6,14 @@ public class DestroyByContact : MonoBehaviour
 {
     public GameObject explosion;
     public GameObject playerexplosion;
-    
+    private int destroyTime = 2;
+    GameController gc;
 
+    private void Start()
+    {
+        gc = GameObject.Find("GameController").GetComponent<GameController>();
+    }
 
-  
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.CompareTag("background"))
@@ -24,11 +28,14 @@ public class DestroyByContact : MonoBehaviour
         {
             Destroy(gameObject);
             Destroy(other.gameObject);
-            Instantiate(playerexplosion, other.transform.position, other.transform.rotation); // Diðer türlü GameObject.Find yapmamýz gerekirdi.
+            GameObject player = Instantiate(playerexplosion, other.transform.position, other.transform.rotation); // Diðer türlü GameObject.Find yapmamýz gerekirdi.
+            Destroy(player, destroyTime);
         }
+        gc.IncreaseScore();
         GameObject explosionClone =Instantiate(explosion, transform.position, transform.rotation);
         Destroy(gameObject);
-        Destroy(explosionClone, 2);
+        Destroy(explosionClone, destroyTime);
         Destroy(other.gameObject);
+        
     }
 }

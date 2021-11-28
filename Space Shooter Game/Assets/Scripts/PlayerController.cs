@@ -18,13 +18,15 @@ public class PlayerController : MonoBehaviour
     public GameObject shotPos;
     public Boundary boundary;
 
+    AudioSource audioPlayer;
     Rigidbody physic;
-    float zaman = 0.5f;
+    
     
 
     void Start()
     {
         physic = GetComponent<Rigidbody>();
+        audioPlayer = GetComponent<AudioSource>();
     }
 
     
@@ -56,9 +58,10 @@ public class PlayerController : MonoBehaviour
         {
             nextFire = Time.time + fireRate;  // bu deðer zamandan her zaman 0.25 kadar büyük olacaðý için saniyede 4 defa ateþ edebilecek.
             Instantiate(shot, shotPos.transform.position, shotPos.transform.rotation);
-            
+            audioPlayer.Play();
         }
     }
+  
 
 
 
