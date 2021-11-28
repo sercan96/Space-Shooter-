@@ -30,6 +30,7 @@ public class DestroyByContact : MonoBehaviour
             Destroy(other.gameObject);
             GameObject player = Instantiate(playerexplosion, other.transform.position, other.transform.rotation); // Diðer türlü GameObject.Find yapmamýz gerekirdi.
             Destroy(player, destroyTime);
+            
         }
         gc.IncreaseScore();
         GameObject explosionClone =Instantiate(explosion, transform.position, transform.rotation);
