@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
@@ -13,9 +14,38 @@ public class GameController : MonoBehaviour
     public Mover speedUp;
     public Text scoreText;
     private int score;
+    public Text GameOverText;
+    public Text restartText;
+    public Text QuitText;
+    bool gameOver;
+    bool restart;
+
+
+    private void Update()
+    {
+        if(restart == true)
+        {
+            speedUp.speed = -3;
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                SceneManager.LoadScene(0);
+            }
+            if(Input.GetKeyDown(KeyCode.Q))
+            {
+                Application.Quit();
+                Debug.Log("Oyun Kapandý");
+            } 
+        }
+    }
     void Start()
     {
         StartCoroutine(SpawnValues());
+        GameOverText.text = "";
+        restartText.text = "";
+        QuitText.text = "";
+        gameOver = false;
+        restart = false;
+
     }
     
     public void IncreaseScore()
@@ -45,7 +75,24 @@ public class GameController : MonoBehaviour
             }
             speedUp.speed -= 1;
             yield return new WaitForSeconds(waveWait); // Döngü bittikten sonra 4 saniye beklesin.
+            if(gameOver == true)
+            {
+                restartText.text = "Press 'R' for restart ";
+                QuitText.text = "Press 'Q' for Quit";
+                restart = true;
+                break;   // Objelerin düþmesini durdurmak için 
+            }
         }
        
     }
+
+    public void GameOver()
+    {
+        GameOverText.text = "Game Over";
+        gameOver = true;
+        
+    }
+ 
+
+
 }
